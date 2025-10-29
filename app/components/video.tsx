@@ -11,8 +11,7 @@ export default function Video() {
         className="w-[1250px] h-[700px]"
       />
       <div className="absolute text-center mt-[-500px] cursor-default">
-          <h1 className="text-[#00FFFF] text-5xl font-bold drop-shadow-lg"   style={{ fontFamily: "Orbitron, sans-serif" }}
->
+          <h1 className="text-[#00FFFF] text-5xl font-bold drop-shadow-lg"   style={{ fontFamily: "Orbitron, sans-serif" }}>
             Welcome to Online Library
           </h1>
         </div>
