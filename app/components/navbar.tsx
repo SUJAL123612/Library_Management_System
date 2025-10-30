@@ -11,10 +11,10 @@ export default function Navbar() {
         </div>
         <ul className="ml-[470px] mt-[70px]">
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/">Home</Link></li>
-          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="#books">Books</Link></li>
+          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/books">Books</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/login">Login</Link></li>
-          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="#sign-up">Sign-Up</Link></li>
-          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="#feedback">FeedBack</Link></li>
+          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/signup">Sign-Up</Link></li>
+          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/feedback">FeedBack</Link></li>
         </ul>
       </nav>
     </>
