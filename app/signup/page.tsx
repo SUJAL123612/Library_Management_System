@@ -9,7 +9,7 @@ export default function Page() {
                 <div className="relative z-20">
                     <Navbar />
                 </div>
-                <img src="/signup.jpg" alt="signup" className="w-full h-screen object-cover" />
+                <img src="signup.jpg" alt="signup" className="w-full h-screen object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center -mt-[130px]">
                     <h1 className="text-white text-5xl font-bold text-shadow-lg-dark mb-6 cursor-default ">User Registration Form</h1>
                     <form className="flex flex-col items-center w-full max-w-sm gap-4">

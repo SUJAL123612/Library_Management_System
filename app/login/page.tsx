@@ -9,7 +9,7 @@ export default function Page() {
         <div className="relative z-20">
           <Navbar />
         </div>
-        <img src="/login.jpg" alt="login" className="w-full h-screen object-cover"/>
+        <img src="login.jpg" alt="login" className="w-full h-screen object-cover"/>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center -mt-[100px]">
           <h1 className="text-white text-5xl font-bold text-shadow-lg-dark mb-6 cursor-default">User Login Form</h1>
           <div className="text-white text-xl mb-4 font-semibold drop-shadow-md">

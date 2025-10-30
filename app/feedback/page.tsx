@@ -23,7 +23,7 @@ export default function Page() {
         <div className="relative z-20">
           <Navbar />
         </div>
-        <img src="/feedback.png" alt="feedback" className="w-full h-screen object-cover" />
+        <img src="feedback.png" alt="feedback" className="w-full h-screen object-cover" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center -mt-[130px]">
           <div className="relative z-10 mt-20 bg-white/60 backdrop-blur-md rounded-2xl shadow-lg w-[90%] max-w-3xl p-8">
             <h1 className="text-4xl font-bold text-center text-gray-900 mb-6 cursor-default">Your Feedback Matters</h1>
