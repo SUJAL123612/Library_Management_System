@@ -5,14 +5,14 @@ export async function GET() {
     const connection = await mysql.createConnection({
       host: "localhost",
       user: "root",
-      password: "", 
-      database: "library1", 
+      password: "",
+      database: "library1",
     });
-    const [rows] = await connection.execute(
-      "SELECT COUNT(*) AS total FROM signup WHERE role = 'Member'"
+    const [rows] = await connection.execute<any[]>(
+      "SELECT COUNT(*) AS totalMembers FROM members"
     );
     await connection.end();
-    return new Response(JSON.stringify({ totalMembers: rows[0].total }), {
+    return new Response(JSON.stringify({ totalMembers: rows[0].totalMembers }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
