@@ -26,10 +26,8 @@ export default function Page() {
       if (role === "Admin") {
         window.location.href = "/admin/profile";
       } else if (role === "Member") {
-        window.location.href = "/user";
-      } else {
-        window.location.href = "/books";
-      }
+        window.location.href = "/member/profile";
+      } 
     }
   };
 

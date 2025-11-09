@@ -5,8 +5,8 @@ import AdminNavbar from "../../components/adminnavbar";
 export default function Page() {
   const [books, setBooks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   const [showForm, setShowForm] = useState(false);
+  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [category, setCategory] = useState("");
@@ -30,17 +30,12 @@ export default function Page() {
   const handleAddBook = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title.trim() || !author.trim() || !category.trim() || !quantity.trim()) {
-      alert("Please fill in all fields!");
+    if (!id.trim() || !title.trim() || !author.trim() || !category.trim() || !quantity.trim()) {
+      alert("Please fill in all fields including ID!");
       return;
     }
 
-    const newBook = {
-      title,
-      author,
-      category,
-      quantity,
-    };
+    const newBook = { id, title, author, category, quantity };
 
     const res = await fetch("/api/addbooks", {
       method: "POST",
@@ -49,6 +44,7 @@ export default function Page() {
     });
 
     if (res.ok) {
+      setId("");
       setTitle("");
       setAuthor("");
       setCategory("");
@@ -57,25 +53,21 @@ export default function Page() {
       fetchBooks();
       alert("✅ Book added successfully!");
     } else {
-      alert("❌ Failed to add book");
+      alert("❌ Failed to add book. ID may already exist!");
     }
   };
-
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   return (
     <>
       <AdminNavbar />
-      <div className="min-h-screen bg-[#f5e1c8] text-black py-10">
+      <div className="min-h-screen bg-[#f5e1c8] text-black py-10 cursor-default">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold text-center mb-8">
-            📚 Books List
-          </h1>
+          <h1 className="text-3xl font-bold text-center mb-8">📚 Books List</h1>
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             <div className="flex items-center w-full md:w-1/2">
-              <input type="text" placeholder="🔍 Search by book title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-55 p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+              <input type="text" placeholder="Search by book title..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-55 p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"/>
             </div>
             <button onClick={() => setShowForm(true)} className="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 w-full md:w-auto">
               ➕ Add New Book
@@ -91,10 +83,11 @@ export default function Page() {
                   Add New Book
                 </h2>
                 <form onSubmit={handleAddBook} className="space-y-3">
-                  <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded" required />
-                  <input type="text" placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} className="w-full p-2 border rounded" required />
-                  <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border rounded" required />
-                  <input type="number" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="w-full p-2 border rounded" min={1} required />
+                  <input type="number" placeholder="Book ID (e.g., 1, 2, 3)" value={id} onChange={(e) => setId(e.target.value)} className="w-full p-2 border rounded" required/>
+                  <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded" required/>
+                  <input type="text" placeholder="Author" value={author} onChange={(e) => setAuthor(e.target.value)} className="w-full p-2 border rounded" required/>
+                  <input type="text" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} className="w-full p-2 border rounded" required/>
+                  <input type="number" placeholder="Quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="w-full p-2 border rounded" min={1} required/>
                   <button type="submit" className="w-full mt-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-800">
                     Add Book
                   </button>
@@ -128,10 +121,11 @@ export default function Page() {
                       <td className="p-3">{book.category}</td>
                       <td className="p-3">{book.quantity}</td>
                       <td
-                        className={`p-3 font-semibold ${book.status === "Available"
+                        className={`p-3 font-semibold ${
+                          book.status === "Available"
                             ? "text-green-600"
                             : "text-red-600"
-                          }`}>
+                        }`}>
                         {book.status}
                       </td>
                     </tr>

@@ -1,9 +1,9 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AdminNavbar from "../components/adminnavbar";
+import MemberNavbar from "../components/membernavbar";
 
-export default function Page() {
+export default function MemberPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -14,15 +14,15 @@ export default function Page() {
       return;
     }
     const user = JSON.parse(storedUser);
-    if (user.role !== "Admin") {
-      alert("Access denied! Only Admins are allowed.");
+    if (user.role !== "Member") {
+      alert("Access limited to registered Members.");
       router.push("/login");
     }
   }, [router]);
 
   return (
     <>
-      <AdminNavbar />
+      <MemberNavbar />
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-gray-800">
       </div>
     </>

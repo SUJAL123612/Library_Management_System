@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import AdminNavbar from "../../components/adminnavbar";
+import MemberNavbar from "@/app/components/membernavbar";
 
 export default function Page() {
     const [comment, setComment] = useState("");
@@ -31,11 +31,13 @@ export default function Page() {
             alert("Please log in to submit feedback.");
             return;
         }
+
         const res = await fetch("/api/feedback", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, role, feedback: comment }),
         });
+
         const data = await res.json();
         alert(data.message);
 
@@ -44,18 +46,10 @@ export default function Page() {
             setComment("");
         }
     };
-    const handleClearFeedbacks = async () => {
-        if (confirm("Are you sure you want to delete all feedbacks?")) {
-            const res = await fetch("/api/feedback", { method: "DELETE" });
-            const data = await res.json();
-            alert(data.message);
-            if (data.success) setComments([]);
-        }
-    };
     return (
         <>
-         <AdminNavbar />    
-            <div className="min-h-screen bg-[#f5e1c8] text-black">           
+            <MemberNavbar />
+            <div className="min-h-screen bg-[#f5e1c8] text-black">
                 <div className="flex flex-col items-center justify-center py-16 px-4">
                     <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-lg w-full max-w-3xl p-8 text-center">
                         <h1 className="text-4xl font-bold text-gray-900 mb-6 cursor-default">
@@ -88,17 +82,12 @@ export default function Page() {
                                             <tr key={index} className="border-b border-gray-300 last:border-none">
                                                 <td className="font-semibold pr-3">{c.role}</td>
                                                 <td className="font-semibold pr-3">Username: {c.username}</td>
-                                                <td>{c.feedback}</td>
+                                                <td className="pr-3">{c.feedback}</td>
                                             </tr>
                                         ))
                                     )}
                                 </tbody>
                             </table>
-                            {role === "Admin" && comments.length > 0 && (
-                                <button onClick={handleClearFeedbacks} className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition font-semibold">
-                                    Clear All Feedbacks
-                                </button>
-                            )}
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@ export async function GET() {
       database: "library1",
     });
     const [rows] = await connection.execute<any[]>(
-      "SELECT COUNT(*) AS totalMembers FROM members"
+      "SELECT COUNT(*) AS totalMembers FROM signup where role='Member'"
     );
     await connection.end();
     return new Response(JSON.stringify({ totalMembers: rows[0].totalMembers }), {
