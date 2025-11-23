@@ -5,8 +5,28 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
     const router = useRouter();
+    // const handleSignup = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     const firstName = (document.querySelector('input[placeholder="First Name"]') as HTMLInputElement).value;
+    //     const lastName = (document.querySelector('input[placeholder="Last Name"]') as HTMLInputElement).value;
+    //     const username = (document.querySelector('input[placeholder="Username"]') as HTMLInputElement).value;
+    //     const password = (document.querySelector('input[placeholder="Password"]') as HTMLInputElement).value;
+    //     const email = (document.querySelector('input[placeholder="Email"]') as HTMLInputElement).value;
+    //     const phone = (document.querySelector('input[placeholder="Phone No"]') as HTMLInputElement).value;
+    //     const role = (document.querySelector('select[name="role"]') as HTMLSelectElement).value;
+    //     const res = await fetch("/api/signup", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({ firstName, lastName, username, password, email, phone, role }),
+    //     });
+    //     const data = await res.json();
+    //     alert(data.message);
+    //     if (data.success) {
+    //         router.push("/login");
+    //     }
     const handleSignup = async (e: React.FormEvent) => {
         e.preventDefault();
+    
         const firstName = (document.querySelector('input[placeholder="First Name"]') as HTMLInputElement).value;
         const lastName = (document.querySelector('input[placeholder="Last Name"]') as HTMLInputElement).value;
         const username = (document.querySelector('input[placeholder="Username"]') as HTMLInputElement).value;
@@ -14,14 +34,26 @@ export default function Page() {
         const email = (document.querySelector('input[placeholder="Email"]') as HTMLInputElement).value;
         const phone = (document.querySelector('input[placeholder="Phone No"]') as HTMLInputElement).value;
         const role = (document.querySelector('select[name="role"]') as HTMLSelectElement).value;
+    
         const res = await fetch("/api/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ firstName, lastName, username, password, email, phone, role }),
         });
+    
         const data = await res.json();
         alert(data.message);
+    
         if (data.success) {
+    
+            // ✅ Send Gmail Notification
+            await fetch("/api/sendSignupEmail", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, username }),
+            });
+    
+            // Redirect to login
             router.push("/login");
         }
     };

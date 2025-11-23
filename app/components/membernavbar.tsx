@@ -12,6 +12,7 @@ export default function MemberNavbar() {
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/member/dashboard">DashBoard</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/member/books">Books</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/member/issued_books">Issued Books</Link></li>
+          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/member/fines">Fine</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/member/feedback">FeedBack</Link></li>
         </ul>
       </nav>

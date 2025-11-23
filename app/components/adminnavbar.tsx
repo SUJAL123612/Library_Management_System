@@ -12,6 +12,7 @@ export default function AdminNavbar() {
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/admin/dashboard">DashBoard</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/admin/books">Books</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/admin/issued_books">Issued Books</Link></li>
+          <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/admin/fines">Fine</Link></li>
           <li className="inline-block mr-8 mb-8 text-[23px] font-sans text-white cursor-pointer hover:text-[#00FFFF]"><Link href="/admin/feedback">FeedBack</Link></li>
         </ul>
       </nav>

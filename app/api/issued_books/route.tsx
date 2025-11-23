@@ -68,6 +68,8 @@ export async function POST(req: Request) {
 
     await db.query("UPDATE books SET status = 'Issued' WHERE id = ?", [book_id]);
 
+    
+
     return NextResponse.json({
       success: true,
       message: "✅ Book issued successfully!",
