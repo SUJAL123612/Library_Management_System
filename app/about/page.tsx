@@ -11,7 +11,7 @@ export default function Page() {
         </div>
         <img src="login.jpg" alt="login" className="w-full h-screen object-cover" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 md:px-0 font-sans">
-          <div className="bg-white/70 text-black backdrop-blur-md rounded-2xl shadow-lg w-full max-w-3xl p-8 text-center cursor-default mt-[-50px]">
+          <div className="bg-white/50 text-black backdrop-blur-md rounded-2xl shadow-lg w-full max-w-3xl p-8 text-center cursor-default mt-[-50px]">
             <p className="text-md md:text-xl leading-relaxed mb-4">
               Welcome to our Library Management System, your gateway to a world of knowledge and discovery. Our mission is to
               provide seamless access to a vast collection of books, journals, and digital resources, empowering learners,
