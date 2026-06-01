@@ -65,7 +65,7 @@ export default function Page() {
                 </div>
                 <img src="signup.jpg" alt="signup" className="w-full h-screen object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center -mt-[130px]">
-                    <h1 className="text-white text-5xl font-bold text-shadow-lg-dark mb-6 cursor-default">Member Registration Form</h1>
+                    <h1 className="text-white text-5xl font-bold text-shadow-lg-dark mb-6 cursor-default">Registration Form</h1>
                     <form onSubmit={handleSignup} className="flex flex-col items-center w-full max-w-sm gap-4">
                         <div className="flex">
                             <input type="text" placeholder="First Name" className="w-full px-4 py-2 rounded-md bg-white/70 text-gray-800 placeholder-gray-600 focus:outline-none mr-8 font-semibold" />

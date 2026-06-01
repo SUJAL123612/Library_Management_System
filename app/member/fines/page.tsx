@@ -121,14 +121,18 @@ export default function MemberFines() {
                         ₹{item.fine}
                       </td>
                       <td className="p-3">
-                        {item.fine_status === "PAID" ? (
-                          <span className="bg-green-700 text-white py-1 px-4 rounded-lg shadow-md">
+                        {item.fine === 0 ? (
+                          <span className="bg-blue-600 text-white py-1 px-4 rounded-lg shadow-md cursor-default">
+                            No Fine
+                          </span>
+                        ) : item.fine_status === "PAID" ? (
+                          <span className="bg-green-700 text-white py-1 px-4 rounded-lg shadow-md cursor-default">
                             Paid ✔
                           </span>
                         ) : (
                           <button
                             onClick={() => handlePay(item)}
-                            className="bg-green-600 hover:bg-green-700 text-white py-1 px-4 rounded-lg shadow-md"
+                            className="bg-green-600 hover:bg-green-700 text-white py-1 px-4 rounded-lg shadow-md cursor-default"
                           >
                             Pay
                           </button>

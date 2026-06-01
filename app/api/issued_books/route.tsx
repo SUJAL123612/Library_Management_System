@@ -60,19 +60,40 @@ export async function POST(req: Request) {
         message: "Book ID and username are required.",
       });
     }
+    const [bookRows]: any = await db.query(
+      "SELECT quantity FROM books WHERE id = ?",
+      [book_id]
+    );
 
+    if (bookRows.length === 0) {
+      return NextResponse.json({
+        success: false,
+        message: "Book not found",
+      });
+    }
+    const currentQty = bookRows[0].quantity;
+
+    if (currentQty <= 0) {
+      return NextResponse.json({
+        success: false,
+        message: "Book is not available",
+      });
+    }
     await db.query(
       "INSERT INTO issued_books (book_id, username, issue_date, return_date, status) VALUES (?, ?, CURDATE(), NULL, 'Issued')",
       [book_id, username]
     );
+    const updatedQty = currentQty - 1;
+    const newStatus = updatedQty === 0 ? "Not Available" : "Available";
 
-    await db.query("UPDATE books SET status = 'Issued' WHERE id = ?", [book_id]);
-
-    
+    await db.query(
+      "UPDATE books SET quantity = ?, status = ? WHERE id = ?",
+      [updatedQty, newStatus, book_id]
+    );
 
     return NextResponse.json({
       success: true,
-      message: "✅ Book issued successfully!",
+      message: "📚 Book issued successfully!",
     });
   } catch (error) {
     console.error("Error issuing book:", error);
