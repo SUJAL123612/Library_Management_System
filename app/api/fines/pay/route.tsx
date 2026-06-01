@@ -3,8 +3,7 @@ import { db } from "../../../lib/db";
 
 export async function PUT(req: Request) {
   try {
-    const body = await req.json();
-    const { issue_id } = body;
+    const { issue_id } = await req.json();
 
     if (!issue_id) {
       return NextResponse.json(
@@ -14,7 +13,7 @@ export async function PUT(req: Request) {
     }
 
     await db.query(
-      `UPDATE issued_books SET fine_status = 'PAID' WHERE issue_id = ?`,
+      "UPDATE issued_books SET fine_status = 'PAID' WHERE issue_id = $1",
       [issue_id]
     );
 

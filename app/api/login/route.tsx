@@ -1,24 +1,23 @@
 import { NextResponse } from "next/server";
-import {db} from "../../lib/db";
+import { db } from "../../lib/db";
 
 export async function POST(req: Request) {
   const { username, password, role } = await req.json();
   try {
-    const [rows]: any = await db.query(
-      "SELECT * FROM signup WHERE username = ? AND password = ? AND role = ?",
+    const result = await db.query(
+      "SELECT * FROM signup WHERE username = $1 AND password = $2 AND role = $3",
       [username, password, role]
     );
-    if (rows.length === 0) {
+    if (result.rows.length === 0) {
       return NextResponse.json({
         success: false,
         message: "Access denied: Incorrect username or password",
       });
     }
-    const user = rows[0];
     return NextResponse.json({
       success: true,
       message: "Login successful!",
-      user,
+      user: result.rows[0],
     });
   } catch (error) {
     console.error("Database error:", error);

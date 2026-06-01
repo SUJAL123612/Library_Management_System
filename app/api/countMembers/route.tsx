@@ -1,21 +1,17 @@
-import mysql from "mysql2/promise";
+import { db } from "../../lib/db";
 
 export async function GET() {
   try {
-    const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "library1",
-    });
-    const [rows] = await connection.execute<any[]>(
-      "SELECT COUNT(*) AS totalMembers FROM signup where role='Member'"
+    const result = await db.query(
+      "SELECT COUNT(*) AS totalmembers FROM signup WHERE role = 'Member'"
     );
-    await connection.end();
-    return new Response(JSON.stringify({ totalMembers: rows[0].totalMembers }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ totalMembers: parseInt(result.rows[0].totalmembers) }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ error: "Database error" }), { status: 500 });

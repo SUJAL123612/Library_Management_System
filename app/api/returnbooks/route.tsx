@@ -11,24 +11,21 @@ export async function POST(req: Request) {
         message: "Issue ID and Book ID are required.",
       });
     }
+
     await db.query(
-      "UPDATE issued_books SET status = 'Returned', return_date = CURDATE() WHERE issue_id = ?",
+      "UPDATE issued_books SET status = 'Returned', return_date = CURRENT_DATE WHERE issue_id = $1",
       [issue_id]
     );
 
+    // Increase quantity back; mark Available when quantity goes above 0
     await db.query(
-      "UPDATE books SET quantity = quantity + 1 WHERE id = ?",
-      [book_id]
-    );
-
-    await db.query(
-      "UPDATE books SET status = 'Available' WHERE id = ? AND quantity > 0",
+      "UPDATE books SET quantity = quantity + 1, status = 'Available' WHERE id = $1",
       [book_id]
     );
 
     return NextResponse.json({
       success: true,
-      message: "📘 Book returned successfully!",
+      message: "✅ Book returned successfully!",
     });
   } catch (error) {
     console.error("Error returning book:", error);
@@ -38,4 +35,3 @@ export async function POST(req: Request) {
     });
   }
 }
-

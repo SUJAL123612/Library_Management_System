@@ -1,29 +1,20 @@
-import mysql from "mysql2/promise";
+import { db } from "../../lib/db";
 
 export async function POST(req: Request) {
   try {
-    const { id, title, author, category, quantity, status } = await req.json();
+    const { title, author, category, quantity, status } = await req.json();
 
-    if (!id || !title || !author || !category || !quantity) {
+    if (!title || !author || !category || !quantity) {
       return new Response(
-        JSON.stringify({ error: "All fields including ID are required" }),
+        JSON.stringify({ error: "All fields are required" }),
         { status: 400 }
       );
     }
 
-    const db = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
-      database: "library1",
-    });
-
-    await db.execute(
-      "INSERT INTO books (id, title, author, category, quantity, status) VALUES (?, ?, ?, ?, ?, ?)",
-      [id, title, author, category, quantity, status || "Available"]
+    await db.query(
+      "INSERT INTO books (title, author, category, quantity, status) VALUES ($1, $2, $3, $4, $5)",
+      [title, author, category, quantity, status || "Available"]
     );
-
-    await db.end();
 
     return new Response(
       JSON.stringify({ message: "Book added successfully" }),

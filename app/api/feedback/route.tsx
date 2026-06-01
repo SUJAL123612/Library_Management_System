@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   }
   try {
     await db.query(
-      "INSERT INTO feedbacks (username, role, feedback, created_at) VALUES (?, ?, ?, NOW())",
+      "INSERT INTO feedbacks (username, role, feedback, created_at) VALUES ($1, $2, $3, NOW())",
       [username, role, feedback]
     );
     return NextResponse.json({ success: true, message: "Feedback submitted!" });
@@ -20,10 +20,10 @@ export async function POST(req: Request) {
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query(
+    const result = await db.query(
       "SELECT username, role, feedback, created_at FROM feedbacks ORDER BY created_at DESC"
     );
-    return NextResponse.json(rows);
+    return NextResponse.json(result.rows);
   } catch (err) {
     console.error("Error fetching feedback:", err);
     return NextResponse.json({ success: false, message: "Database error" });

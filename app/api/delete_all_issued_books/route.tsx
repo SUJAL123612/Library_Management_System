@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       });
     }
 
-    await db.query("DELETE FROM issued_books WHERE username = ?", [username]);
+    await db.query("DELETE FROM issued_books WHERE username = $1", [username]);
 
     return NextResponse.json({
       success: true,

@@ -3,7 +3,7 @@ import { db } from "../../lib/db";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query(`
+    const result = await db.query(`
       SELECT issued_books.issue_id, issued_books.book_id, issued_books.username,
              issued_books.issue_date, issued_books.return_date, issued_books.status,
              books.title AS book_title
@@ -12,7 +12,7 @@ export async function GET() {
       ORDER BY issued_books.issue_id DESC
     `);
 
-    const formattedRows = rows.map((row: any) => ({
+    const formattedRows = result.rows.map((row: any) => ({
       ...row,
       issue_date: row.issue_date
         ? new Date(row.issue_date).toISOString().split("T")[0]

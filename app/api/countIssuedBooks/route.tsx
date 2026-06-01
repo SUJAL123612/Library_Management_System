@@ -3,8 +3,8 @@ import { db } from "../../lib/db";
 
 export async function GET() {
   try {
-    const [rows]: any = await db.query("SELECT COUNT(*) AS totalIssued FROM issued_books");
-    return NextResponse.json({ totalIssued: rows[0].totalIssued });
+    const result = await db.query("SELECT COUNT(*) AS totalissued FROM issued_books");
+    return NextResponse.json({ totalIssued: parseInt(result.rows[0].totalissued) });
   } catch (error) {
     console.error("Error counting issued books:", error);
     return NextResponse.json(

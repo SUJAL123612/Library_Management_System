@@ -1,19 +1,11 @@
-import mysql from "mysql2/promise";
+import { db } from "../../lib/db";
 
 export async function GET() {
   try {
-    const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root", 
-      password: "",
-      database: "library1", 
-    });
-
-    const [rows] = await connection.execute(
+    const result = await db.query(
       "SELECT id, title, author, category, quantity, status FROM books"
     );
-    await connection.end();
-    return new Response(JSON.stringify(rows), {
+    return new Response(JSON.stringify(result.rows), {
       headers: { "Content-Type": "application/json" },
       status: 200,
     });

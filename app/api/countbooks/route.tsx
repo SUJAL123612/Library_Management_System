@@ -1,21 +1,15 @@
-import mysql from "mysql2/promise";
+import { db } from "../../lib/db";
 
 export async function GET() {
   try {
-    const connection = await mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "", 
-      database: "library1", 
-    });
-    const [rows]: any = await connection.execute(
-      "SELECT COUNT(*) AS totalbooks FROM books"
+    const result = await db.query("SELECT COUNT(*) AS totalbooks FROM books");
+    return new Response(
+      JSON.stringify({ totalBooks: parseInt(result.rows[0].totalbooks) }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }
     );
-    await connection.end();
-    return new Response(JSON.stringify({ totalBooks: rows[0].totalbooks }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
   } catch (error) {
     console.error("Error fetching total books:", error);
     return new Response(

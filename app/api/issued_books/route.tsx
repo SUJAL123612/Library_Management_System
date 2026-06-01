@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const [rows]: any = await db.query(
+    const result = await db.query(
       `SELECT 
          i.issue_id, 
          i.book_id, 
@@ -23,11 +23,11 @@ export async function GET(req: Request) {
          i.status
        FROM issued_books i
        JOIN books b ON i.book_id = b.id
-       WHERE i.username = ?`,
+       WHERE i.username = $1`,
       [username]
     );
 
-    const formattedRows = rows.map((row: any) => ({
+    const formattedRows = result.rows.map((row: any) => ({
       ...row,
       issue_date: row.issue_date
         ? new Date(row.issue_date).toISOString().split("T")[0]
@@ -37,10 +37,7 @@ export async function GET(req: Request) {
         : null,
     }));
 
-    return NextResponse.json({
-      success: true,
-      data: formattedRows,
-    });
+    return NextResponse.json({ success: true, data: formattedRows });
   } catch (error) {
     console.error("Error fetching issued books:", error);
     return NextResponse.json(
@@ -60,40 +57,36 @@ export async function POST(req: Request) {
         message: "Book ID and username are required.",
       });
     }
-    const [bookRows]: any = await db.query(
-      "SELECT quantity FROM books WHERE id = ?",
+
+    // Check quantity before issuing
+    const bookResult = await db.query(
+      "SELECT quantity FROM books WHERE id = $1",
       [book_id]
     );
 
-    if (bookRows.length === 0) {
-      return NextResponse.json({
-        success: false,
-        message: "Book not found",
-      });
+    if (bookResult.rows.length === 0) {
+      return NextResponse.json({ success: false, message: "Book not found." });
     }
-    const currentQty = bookRows[0].quantity;
 
-    if (currentQty <= 0) {
-      return NextResponse.json({
-        success: false,
-        message: "Book is not available",
-      });
+    const quantity = bookResult.rows[0].quantity;
+    if (quantity <= 0) {
+      return NextResponse.json({ success: false, message: "Book is out of stock." });
     }
+
     await db.query(
-      "INSERT INTO issued_books (book_id, username, issue_date, return_date, status) VALUES (?, ?, CURDATE(), NULL, 'Issued')",
+      "INSERT INTO issued_books (book_id, username, issue_date, return_date, status) VALUES ($1, $2, CURRENT_DATE, NULL, 'Issued')",
       [book_id, username]
     );
-    const updatedQty = currentQty - 1;
-    const newStatus = updatedQty === 0 ? "Not Available" : "Available";
 
+    // Decrease quantity; mark Issued if quantity hits 0
     await db.query(
-      "UPDATE books SET quantity = ?, status = ? WHERE id = ?",
-      [updatedQty, newStatus, book_id]
+      "UPDATE books SET quantity = quantity - 1, status = CASE WHEN quantity - 1 = 0 THEN 'Issued' ELSE status END WHERE id = $1",
+      [book_id]
     );
 
     return NextResponse.json({
       success: true,
-      message: "📚 Book issued successfully!",
+      message: "✅ Book issued successfully!",
     });
   } catch (error) {
     console.error("Error issuing book:", error);

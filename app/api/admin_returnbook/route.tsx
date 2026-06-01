@@ -13,13 +13,11 @@ export async function POST(req: Request) {
     }
 
     await db.query(
-      "UPDATE issued_books SET status = 'Returned', return_date = CURDATE() WHERE issue_id = ?",
+      "UPDATE issued_books SET status = 'Returned', return_date = CURRENT_DATE WHERE issue_id = $1",
       [issue_id]
     );
 
-    await db.query("UPDATE books SET status = 'Available' WHERE id = ?", [
-      book_id,
-    ]);
+    await db.query("UPDATE books SET status = 'Available' WHERE id = $1", [book_id]);
 
     return NextResponse.json({
       success: true,
